@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns="http://www.w3.org/1999/xhtml">
+	<meta charset="UTF-8">
+	<title>Car Price Predictor</title>
+	<link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="form-box text-light" >
+        <div class="card-header" style="text-align: center">
+            <h1>Welcome To House Price Predictor</h1>
+        </div>
+        <div class="card-body">
+            <div class="col-12" style="text-align: center">
+                <h4>This app predicts the price of a House you want to sell. Try filling the details below: </h4>
+            </div>
+            <br>
+            <form method="post" accept-charset="utf-8" name="Modelform">
+                <div class="col-md-12 form-group" style="text-align: center">
+                    <label for="Location"><h5>Choose a Location:</h5></label>
+                    <select name="Location" id="Location">
+                      <option value="Kharghar">Kharghar</option>
+                      <option value="Thane West">Thane West</option>
+                      <option value="Mira Road East">Mira Road East</option>
+                    
+                    </select>
+                </div>
+                <!-- <div class="col-md-12 form-group" style="text-align: center">
+                    <label><h5>Select the model:</h5> </label><br>
+                    <select class="selectpicker form-control" id="car_models" name="car_models" required="1">
+                    </select>
+                </div> -->
+                <div class="col-md-12 form-group" style="text-align: center">
+                    <label><h5>Enter Area</h5> </label><br>
+                    <input type="text" class="form-control" id="Area" name="Area"
+                           placeholder="Enter the Area Of House ">
+                </div>
+                <div class="col-md-12 form-group" style="text-align: center">
+                    <label><h5>Select the Number Of Bedrooms </h5> </label><br>
+                    <select name="Bedrooms" id="Bedrooms">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                      
+                      </select>
+                </div>
+                <div class="col-md-12 form-group" style="text-align: center">
+                    <label><h5>House is new or resale</h5> </label><br>
+                    <select name="NR" id="NR">
+                        <option value="N">New</option>
+                        <option value="R">Resale</option>
+                      
+                      </select>
+                </div>
+                <div class="col-md-12 form-group" style="text-align: center">
+                    <button  class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                </div>
+                <div class="col-12" style="text-align: center">
+                    <h4><span id="prediction"></span></h4>
+                </div>
+            </form>
+            <br><br><br>
+        </div>
+	</div>
+</div>
+	
+
+
+<script>
+
+    // function load_car_models(company_id,car_model_id)
+    // {
+    //     var company=document.getElementById(company_id);
+    //     var car_model= document.getElementById(car_model_id);
+    //     console.log(company.value);
+    //     car_model.value="";
+    //     car_model.innerHTML="";
+    //     {% for company in companies %}
+    //         if( company.value == "{{ company }}")
+    //         {
+    //             {% for model in car_models %}
+    //                 {% if company in model %}
+
+    //                     var newOption= document.createElement("option");
+    //                     newOption.value="{{ model }}";
+    //                     newOption.innerHTML="{{ model }}";
+    //                     car_model.options.add(newOption);
+    //                 {% endif %}
+    //             {% endfor %}
+    //         }
+    //     {% endfor %}
+    // }
+
+    function form_handler(event) {
+        event.preventDefault(); // Don't submit the form normally
+    }
+    function send_data()
+    {
+        document.querySelector('form').addEventListener("submit",form_handler);
+
+        var fd=new FormData(document.querySelector('form'));
+
+        var xhr= new XMLHttpRequest({mozSystem: true});
+
+        xhr.open('POST','/predict',true);
+        document.getElementById('prediction').innerHTML="Wait! Predicting Price.....";
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState == XMLHttpRequest.DONE){
+                document.getElementById('prediction').innerHTML="Prediction: ₹"+xhr.responseText;
+
+            }
+        };
+
+        xhr.onload= function(){};
+
+        xhr.send(fd);
+    }
+</script>
+
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
