@@ -1,4 +1,4 @@
----
+
 
 # Car and House Price Prediction Model
 
@@ -81,5 +81,4 @@ Feel free to open issues and submit pull requests for improvements or bug fixes.
 ## License
 This project is licensed under the MIT License.
 
----
 
