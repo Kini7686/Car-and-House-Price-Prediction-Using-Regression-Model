@@ -1,5 +1,3 @@
-Here's a sample README file for your GitHub repository:
-
 ---
 
 # Car and House Price Prediction Model
@@ -85,4 +83,3 @@ This project is licensed under the MIT License.
 
 ---
 
-Feel free to adjust the details as needed, especially for things like repo URL and specific instructions for your project.
